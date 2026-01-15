@@ -1,0 +1,16 @@
+D:\JobHunter\JobHunter.Models\bin\Debug\net8.0\JobHunter.Models.deps.json
+D:\JobHunter\JobHunter.Models\bin\Debug\net8.0\JobHunter.Models.dll
+D:\JobHunter\JobHunter.Models\bin\Debug\net8.0\JobHunter.Models.pdb
+D:\JobHunter\JobHunter.Models\obj\Debug\net8.0\JobHunter.Models.csproj.AssemblyReference.cache
+D:\JobHunter\JobHunter.Models\obj\Debug\net8.0\JobHunter.Models.GeneratedMSBuildEditorConfig.editorconfig
+D:\JobHunter\JobHunter.Models\obj\Debug\net8.0\JobHunter.Models.AssemblyInfoInputs.cache
+D:\JobHunter\JobHunter.Models\obj\Debug\net8.0\JobHunter.Models.AssemblyInfo.cs
+D:\JobHunter\JobHunter.Models\obj\Debug\net8.0\JobHunter.Models.csproj.CoreCompileInputs.cache
+D:\JobHunter\JobHunter.Models\obj\Debug\net8.0\JobHunter.Models.sourcelink.json
+D:\JobHunter\JobHunter.Models\obj\Debug\net8.0\JobHunter.Models.dll
+D:\JobHunter\JobHunter.Models\obj\Debug\net8.0\refint\JobHunter.Models.dll
+D:\JobHunter\JobHunter.Models\obj\Debug\net8.0\JobHunter.Models.pdb
+D:\JobHunter\JobHunter.Models\obj\Debug\net8.0\ref\JobHunter.Models.dll
+D:\JobHunter\JobHunter.Models\bin\Debug\net8.0\JobHunter.Enums.dll
+D:\JobHunter\JobHunter.Models\bin\Debug\net8.0\JobHunter.Enums.pdb
+D:\JobHunter\JobHunter.Models\obj\Debug\net8.0\JobHunte.1E80BA64.Up2Date

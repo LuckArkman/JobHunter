@@ -1,0 +1,36 @@
+﻿@page "/companies"
+
+<h3>🏢 Ranking de Empresas</h3>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Empresa</th>
+        <th>Entrevistas</th>
+        <th>Rejeições</th>
+        <th>Score</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var c in _companyProfiles)
+    {
+        <tr>
+            <td>@c.Name</td>
+            <td>@c.Interviews</td>
+            <td>@c.Rejections</td>
+            <td>@c.Score</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@code {
+    List<CompanyProfile> _companyProfiles = new();
+
+    protected override void OnInitialized()
+    {
+        _companyProfiles = Rank.Rank().ToList();
+    }
+
+    [Inject] CompanyRankService Rank { get; set; }
+}

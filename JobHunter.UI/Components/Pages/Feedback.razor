@@ -1,0 +1,34 @@
+﻿@page "/feedback"
+
+<h3>📄 Histórico de Feedback</h3>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Vaga</th>
+        <th>Resultado</th>
+        <th>Data</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var f in Feedbacks)
+    {
+        <tr>
+            <td>@f.JobUrl</td>
+            <td>@f.Outcome</td>
+            <td>@f.Date</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@code {
+    List<ApplicationFeedback> Feedbacks = new();
+
+    protected override void OnInitialized()
+    {
+        Feedbacks = Repo.GetAll().ToList();
+    }
+
+    [Inject] FeedbackRepository Repo { get; set; }
+}

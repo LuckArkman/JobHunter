@@ -1,0 +1,20 @@
+<Project Sdk="Microsoft.NET.Sdk.Worker">
+
+    <PropertyGroup>
+        <TargetFramework>net8.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <UserSecretsId>dotnet-JobHunter.Worker-e9c6e791-8f86-44fa-8074-33502688cf90</UserSecretsId>
+    </PropertyGroup>
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Data.Sqlite" Version="10.0.2" />
+        <PackageReference Include="Microsoft.Extensions.Hosting" Version="8.0.1"/>
+    </ItemGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\JobHunter.Models\JobHunter.Models.csproj" />
+      <ProjectReference Include="..\JobHunter.Persistence\JobHunter.Persistence.csproj" />
+      <ProjectReference Include="..\JobHunter.Services\JobHunter.Services.csproj" />
+    </ItemGroup>
+</Project>

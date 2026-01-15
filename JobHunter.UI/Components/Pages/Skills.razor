@@ -1,0 +1,25 @@
+﻿@page "/skills"
+
+<h3>🧠 Pesos do CV (Aprendizado)</h3>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Skill</th>
+        <th>Peso</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var s in Cv.Skills)
+    {
+        <tr>
+            <td>@s.Key</td>
+            <td>@s.Value</td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@code {
+    [Inject] CvProfile Cv { get; set; }
+}

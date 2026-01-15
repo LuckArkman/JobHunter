@@ -1,0 +1,13 @@
+D:\JobHunter\JobHunter.Core\bin\Debug\net8.0\JobHunter.Core.deps.json
+D:\JobHunter\JobHunter.Core\bin\Debug\net8.0\JobHunter.Core.dll
+D:\JobHunter\JobHunter.Core\bin\Debug\net8.0\JobHunter.Core.pdb
+D:\JobHunter\JobHunter.Core\obj\Debug\net8.0\JobHunter.Core.csproj.AssemblyReference.cache
+D:\JobHunter\JobHunter.Core\obj\Debug\net8.0\JobHunter.Core.GeneratedMSBuildEditorConfig.editorconfig
+D:\JobHunter\JobHunter.Core\obj\Debug\net8.0\JobHunter.Core.AssemblyInfoInputs.cache
+D:\JobHunter\JobHunter.Core\obj\Debug\net8.0\JobHunter.Core.AssemblyInfo.cs
+D:\JobHunter\JobHunter.Core\obj\Debug\net8.0\JobHunter.Core.csproj.CoreCompileInputs.cache
+D:\JobHunter\JobHunter.Core\obj\Debug\net8.0\JobHunter.Core.sourcelink.json
+D:\JobHunter\JobHunter.Core\obj\Debug\net8.0\JobHunter.Core.dll
+D:\JobHunter\JobHunter.Core\obj\Debug\net8.0\refint\JobHunter.Core.dll
+D:\JobHunter\JobHunter.Core\obj\Debug\net8.0\JobHunter.Core.pdb
+D:\JobHunter\JobHunter.Core\obj\Debug\net8.0\ref\JobHunter.Core.dll

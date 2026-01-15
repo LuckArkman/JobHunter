@@ -1,0 +1,49 @@
+﻿@page "/"
+@using JobHunter.Enums
+
+<h3>📊 Vagas Ranqueadas</h3>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>Título</th>
+        <th>Score</th>
+        <th>Entrevista %</th>
+        <th>Ação</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var job in Jobs)
+    {
+        <tr>
+            <td>
+                <a href="@job.Url" target="_blank">@job.Title</a>
+            </td>
+            <td>@job.Score</td>
+            <td>@($"{job.Probability:P0}")</td>
+            <td>
+                <button @onclick="() => Feedback(job, ApplicationOutcome.Interview)">🎤</button>
+                <button @onclick="() => Feedback(job, ApplicationOutcome.Rejected)">❌</button>
+                <button @onclick="() => Feedback(job, ApplicationOutcome.Ignored)">⏭️</button>
+            </td>
+        </tr>
+    }
+    </tbody>
+</table>
+
+@code {
+    List<Job> Jobs = new();
+
+    protected override void OnInitialized()
+    {
+        Jobs = Dashboard.GetJobs();
+    }
+
+    void Feedback(Job job, ApplicationOutcome outcome)
+    {
+        Dashboard.RegisterFeedback(job, outcome);
+        Jobs = Dashboard.GetJobs();
+    }
+
+    [Inject] DashboardService Dashboard { get; set; }
+}

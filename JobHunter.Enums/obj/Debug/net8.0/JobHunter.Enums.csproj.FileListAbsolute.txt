@@ -1,0 +1,13 @@
+D:\JobHunter\JobHunter.Enums\bin\Debug\net8.0\JobHunter.Enums.deps.json
+D:\JobHunter\JobHunter.Enums\bin\Debug\net8.0\JobHunter.Enums.dll
+D:\JobHunter\JobHunter.Enums\bin\Debug\net8.0\JobHunter.Enums.pdb
+D:\JobHunter\JobHunter.Enums\obj\Debug\net8.0\JobHunter.Enums.csproj.AssemblyReference.cache
+D:\JobHunter\JobHunter.Enums\obj\Debug\net8.0\JobHunter.Enums.GeneratedMSBuildEditorConfig.editorconfig
+D:\JobHunter\JobHunter.Enums\obj\Debug\net8.0\JobHunter.Enums.AssemblyInfoInputs.cache
+D:\JobHunter\JobHunter.Enums\obj\Debug\net8.0\JobHunter.Enums.AssemblyInfo.cs
+D:\JobHunter\JobHunter.Enums\obj\Debug\net8.0\JobHunter.Enums.csproj.CoreCompileInputs.cache
+D:\JobHunter\JobHunter.Enums\obj\Debug\net8.0\JobHunter.Enums.sourcelink.json
+D:\JobHunter\JobHunter.Enums\obj\Debug\net8.0\JobHunter.Enums.dll
+D:\JobHunter\JobHunter.Enums\obj\Debug\net8.0\refint\JobHunter.Enums.dll
+D:\JobHunter\JobHunter.Enums\obj\Debug\net8.0\JobHunter.Enums.pdb
+D:\JobHunter\JobHunter.Enums\obj\Debug\net8.0\ref\JobHunter.Enums.dll
