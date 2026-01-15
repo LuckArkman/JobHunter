@@ -5,11 +5,14 @@ namespace JobHunter.Persistence;
 
 public class JobRepository
 {
-    private const string Conn = "Data Source=data/jobs.db";
+    private string _conn;
 
     public JobRepository()
     {
-        using var c = new SqliteConnection(Conn);
+        var dbPath = DatabasePath.Get("jobs.db");
+        _conn = $"Data Source={dbPath}";
+
+        using var c = new SqliteConnection(_conn);
         c.Open();
 
         var cmd = c.CreateCommand();
@@ -24,7 +27,9 @@ public class JobRepository
     // CREATE
     public void Save(Job job)
     {
-        using var c = new SqliteConnection(Conn);
+        var dbPath = DatabasePath.Get("jobs.db");
+        _conn = $"Data Source={dbPath}";
+        using var c = new SqliteConnection(_conn);
         c.Open();
 
         var cmd = c.CreateCommand();
@@ -43,8 +48,9 @@ public class JobRepository
     public List<Job> GetAll()
     {
         var jobs = new List<Job>();
-
-        using var c = new SqliteConnection(Conn);
+        var dbPath = DatabasePath.Get("jobs.db");
+        _conn = $"Data Source={dbPath}";
+        using var c = new SqliteConnection(_conn);
         c.Open();
 
         var cmd = c.CreateCommand();
@@ -67,7 +73,10 @@ public class JobRepository
     // UPDATE (feedback / aprendizado)
     public void Update(Job job)
     {
-        using var c = new SqliteConnection(Conn);
+        var dbPath = DatabasePath.Get("jobs.db");
+        _conn = $"Data Source={dbPath}";
+        
+        using var c = new SqliteConnection(_conn);
         c.Open();
 
         var cmd = c.CreateCommand();
@@ -87,7 +96,9 @@ public class JobRepository
     // READ por URL (opcional, mas útil)
     public Job? GetByUrl(string url)
     {
-        using var c = new SqliteConnection(Conn);
+        var dbPath = DatabasePath.Get("jobs.db");
+        _conn = $"Data Source={dbPath}";
+        using var c = new SqliteConnection(_conn);
         c.Open();
 
         var cmd = c.CreateCommand();

@@ -6,10 +6,12 @@ namespace JobHunter.Persistence;
 
 public class FeedbackRepository
 {
-    private const string Conn = "Data Source=data/feedback.db";
+    private string Conn = "";
 
     public FeedbackRepository()
     {
+        var dbPath = DatabasePath.Get("jobs.db");
+        Conn = $"Data Source={dbPath}";
         using var c = new SqliteConnection(Conn);
         c.Open();
 
@@ -24,6 +26,9 @@ public class FeedbackRepository
 
     public void Save(string jobUrl, ApplicationOutcome outcome)
     {
+        var dbPath = DatabasePath.Get("jobs.db");
+        Conn = $"Data Source={dbPath}";
+        
         using var c = new SqliteConnection(Conn);
         c.Open();
 

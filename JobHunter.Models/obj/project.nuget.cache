@@ -1,11 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "q6zi4kTqmiU=",
+  "dgSpecHash": "P5+k2jF+H2Q=",
   "success": true,
   "projectFilePath": "D:\\JobHunter\\JobHunter.Models\\JobHunter.Models.csproj",
   "expectedPackageFiles": [
     "C:\\Users\\MPLopes\\.nuget\\packages\\microsoft.data.sqlite\\10.0.2\\microsoft.data.sqlite.10.0.2.nupkg.sha512",
     "C:\\Users\\MPLopes\\.nuget\\packages\\microsoft.data.sqlite.core\\10.0.2\\microsoft.data.sqlite.core.10.0.2.nupkg.sha512",
+    "C:\\Users\\MPLopes\\.nuget\\packages\\selenium.webdriver\\4.39.0\\selenium.webdriver.4.39.0.nupkg.sha512",
     "C:\\Users\\MPLopes\\.nuget\\packages\\sqlitepclraw.bundle_e_sqlite3\\2.1.11\\sqlitepclraw.bundle_e_sqlite3.2.1.11.nupkg.sha512",
     "C:\\Users\\MPLopes\\.nuget\\packages\\sqlitepclraw.core\\2.1.11\\sqlitepclraw.core.2.1.11.nupkg.sha512",
     "C:\\Users\\MPLopes\\.nuget\\packages\\sqlitepclraw.lib.e_sqlite3\\2.1.11\\sqlitepclraw.lib.e_sqlite3.2.1.11.nupkg.sha512",

@@ -588,6 +588,7 @@
       },
       "JobHunter.Models/1.0.0": {
         "dependencies": {
+          "JobHunter.Enums": "1.0.0",
           "Microsoft.Data.Sqlite": "10.0.2"
         },
         "runtime": {
@@ -599,6 +600,7 @@
       },
       "JobHunter.Persistence/1.0.0": {
         "dependencies": {
+          "JobHunter.Enums": "1.0.0",
           "JobHunter.Models": "1.0.0",
           "Microsoft.Data.Sqlite": "10.0.2"
         },
@@ -614,6 +616,7 @@
           "HtmlAgilityPack": "1.12.4",
           "JobHunter.Enums": "1.0.0",
           "JobHunter.Models": "1.0.0",
+          "JobHunter.Persistence": "1.0.0",
           "Microsoft.Data.Sqlite": "10.0.2"
         },
         "runtime": {

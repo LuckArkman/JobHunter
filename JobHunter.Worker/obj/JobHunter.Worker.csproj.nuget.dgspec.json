@@ -54,6 +54,10 @@
             "Microsoft.Data.Sqlite": {
               "target": "Package",
               "version": "[10.0.2, )"
+            },
+            "Selenium.WebDriver": {
+              "target": "Package",
+              "version": "[4.39.0, )"
             }
           },
           "imports": [
@@ -130,6 +134,10 @@
             "Microsoft.Data.Sqlite": {
               "target": "Package",
               "version": "[10.0.2, )"
+            },
+            "Selenium.WebDriver": {
+              "target": "Package",
+              "version": "[4.39.0, )"
             }
           },
           "imports": [
@@ -209,6 +217,10 @@
             "Microsoft.Data.Sqlite": {
               "target": "Package",
               "version": "[10.0.2, )"
+            },
+            "Selenium.WebDriver": {
+              "target": "Package",
+              "version": "[4.39.0, )"
             }
           },
           "imports": [
@@ -295,6 +307,10 @@
             "Microsoft.Data.Sqlite": {
               "target": "Package",
               "version": "[10.0.2, )"
+            },
+            "Selenium.WebDriver": {
+              "target": "Package",
+              "version": "[4.39.0, )"
             }
           },
           "imports": [
@@ -381,6 +397,10 @@
             "Microsoft.Extensions.Hosting": {
               "target": "Package",
               "version": "[8.0.1, )"
+            },
+            "Selenium.WebDriver": {
+              "target": "Package",
+              "version": "[4.39.0, )"
             }
           },
           "imports": [

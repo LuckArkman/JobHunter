@@ -32,6 +32,36 @@
           }
         }
       },
+      "Selenium.WebDriver/4.39.0": {
+        "type": "package",
+        "compile": {
+          "lib/net8.0/WebDriver.dll": {
+            "related": ".xml"
+          }
+        },
+        "runtime": {
+          "lib/net8.0/WebDriver.dll": {
+            "related": ".xml"
+          }
+        },
+        "build": {
+          "buildTransitive/Selenium.WebDriver.targets": {}
+        },
+        "runtimeTargets": {
+          "runtimes/linux/native/selenium-manager": {
+            "assetType": "native",
+            "rid": "linux"
+          },
+          "runtimes/osx/native/selenium-manager": {
+            "assetType": "native",
+            "rid": "osx"
+          },
+          "runtimes/win/native/selenium-manager.exe": {
+            "assetType": "native",
+            "rid": "win"
+          }
+        }
+      },
       "SQLitePCLRaw.bundle_e_sqlite3/2.1.11": {
         "type": "package",
         "dependencies": {
@@ -218,6 +248,30 @@
         "microsoft.data.sqlite.core.nuspec"
       ]
     },
+    "Selenium.WebDriver/4.39.0": {
+      "sha512": "LbiWOVW/PA/YVHKAXxMPLwwoupj3XLWKwjnGNkGFF0dG0rX2MJHDWgSf9WPSRWb9Msr3vTWFg0EsEAdNs68NiA==",
+      "type": "package",
+      "path": "selenium.webdriver/4.39.0",
+      "files": [
+        ".nupkg.metadata",
+        ".signature.p7s",
+        "README.md",
+        "build/Selenium.WebDriver.targets",
+        "buildTransitive/Selenium.WebDriver.targets",
+        "icon.png",
+        "lib/net462/WebDriver.dll",
+        "lib/net462/WebDriver.xml",
+        "lib/net8.0/WebDriver.dll",
+        "lib/net8.0/WebDriver.xml",
+        "lib/netstandard2.0/WebDriver.dll",
+        "lib/netstandard2.0/WebDriver.xml",
+        "runtimes/linux/native/selenium-manager",
+        "runtimes/osx/native/selenium-manager",
+        "runtimes/win/native/selenium-manager.exe",
+        "selenium.webdriver.4.39.0.nupkg.sha512",
+        "selenium.webdriver.nuspec"
+      ]
+    },
     "SQLitePCLRaw.bundle_e_sqlite3/2.1.11": {
       "sha512": "DC4nA7yWnf4UZdgJDF+9Mus4/cb0Y3Sfgi3gDnAoKNAIBwzkskNAbNbyu+u4atT0ruVlZNJfwZmwiEwE5oz9LQ==",
       "type": "package",
@@ -336,7 +390,8 @@
   },
   "projectFileDependencyGroups": {
     "net8.0": [
-      "Microsoft.Data.Sqlite >= 10.0.2"
+      "Microsoft.Data.Sqlite >= 10.0.2",
+      "Selenium.WebDriver >= 4.39.0"
     ]
   },
   "packageFolders": {
@@ -393,6 +448,10 @@
           "Microsoft.Data.Sqlite": {
             "target": "Package",
             "version": "[10.0.2, )"
+          },
+          "Selenium.WebDriver": {
+            "target": "Package",
+            "version": "[4.39.0, )"
           }
         },
         "imports": [

@@ -14,6 +14,7 @@ builder.Services.AddSingleton<DynamicCvScorer>();
 builder.Services.AddSingleton<InterviewProbabilityEngine>();
 builder.Services.AddSingleton<CvWeightTrainer>();
 builder.Services.AddSingleton<CompanyRankService>();
+builder.Services.AddSingleton<LearningRepository>();
 builder.Services.AddSingleton<ApplicationOutcomeProcessor>();
 builder.Services.AddSingleton<ScoreService>();
 builder.Services.AddSingleton<JobRepository>();

@@ -5,11 +5,13 @@ namespace JobHunter.Persistence;
 
 public class LearningRepository
 {
-    private const string Conn = "Data Source=data/learning.db";
+    private string _conn = "/learning.db";
 
     public LearningRepository()
     {
-        using var c = new SqliteConnection(Conn);
+        var dbPath = DatabasePath.Get("learning.db");
+        _conn = $"Data Source={dbPath}";
+        using var c = new SqliteConnection(_conn);
         c.Open();
 
         var cmd = c.CreateCommand();
@@ -22,7 +24,9 @@ public class LearningRepository
 
     public double GetWeight(string key)
     {
-        using var c = new SqliteConnection(Conn);
+        var dbPath = DatabasePath.Get("learning.db");
+        _conn = $"Data Source={dbPath}";
+        using var c = new SqliteConnection(_conn);
         c.Open();
 
         var cmd = c.CreateCommand();
@@ -36,10 +40,12 @@ public class LearningRepository
 
     public void UpdateWeight(string key, double delta)
     {
+        var dbPath = DatabasePath.Get("learning.db");
+        _conn = $"Data Source={dbPath}";
         var current = GetWeight(key);
         var updated = current + delta;
 
-        using var c = new SqliteConnection(Conn);
+        using var c = new SqliteConnection(_conn);
         c.Open();
 
         var cmd = c.CreateCommand();
@@ -55,9 +61,11 @@ public class LearningRepository
 
     public List<LearningWeight> GetAll()
     {
+        var dbPath = DatabasePath.Get("learning.db");
+        _conn = $"Data Source={dbPath}";
         var list = new List<LearningWeight>();
 
-        using var c = new SqliteConnection(Conn);
+        using var c = new SqliteConnection(_conn);
         c.Open();
 
         var cmd = c.CreateCommand();
