@@ -9,30 +9,40 @@ var builder = WebApplication.CreateBuilder(args);
 // Add services to the container.
 builder.Services.AddRazorComponents()
     .AddInteractiveServerComponents();
+
+// Modelos e Lógica de Negócio
 builder.Services.AddSingleton<CvProfile>();
 builder.Services.AddSingleton<DynamicCvScorer>();
 builder.Services.AddSingleton<InterviewProbabilityEngine>();
 builder.Services.AddSingleton<CvWeightTrainer>();
 builder.Services.AddSingleton<CompanyRankService>();
+
+// Persistência
 builder.Services.AddSingleton<LearningRepository>();
-builder.Services.AddSingleton<ApplicationOutcomeProcessor>();
-builder.Services.AddSingleton<ScoreService>();
 builder.Services.AddSingleton<JobRepository>();
 builder.Services.AddSingleton<FeedbackRepository>();
 
-builder.Services.AddSingleton<DashboardService>();
+// Serviços de Processamento
+builder.Services.AddSingleton<ApplicationOutcomeProcessor>();
+builder.Services.AddSingleton<ScoreService>();
+builder.Services.AddTransient<LinkedInCollector>(); // Coletor leve (HttpClient)
+
+// O Bot de Automação (Scoped pois mantém estado do Browser por sessão de uso)
+builder.Services.AddScoped<LinkedInBotService>();
+
+// Serviço de UI
+builder.Services.AddScoped<DashboardService>();
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
 {
     app.UseExceptionHandler("/Error", createScopeForErrors: true);
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
 }
 
 app.UseHttpsRedirection();
-
 app.UseStaticFiles();
 app.UseAntiforgery();
 

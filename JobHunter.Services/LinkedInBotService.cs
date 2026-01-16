@@ -3,6 +3,7 @@ using JobHunter.Persistence;
 using Microsoft.Extensions.Configuration;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Chrome;
+using OpenQA.Selenium.Support.UI;
 
 namespace JobHunter.Services;
 
@@ -11,7 +12,22 @@ public class LinkedInBotService : IDisposable
     private IWebDriver? _driver;
     private readonly IConfiguration _config;
     private readonly FeedbackRepository _feedbackRepo;
+
     public event Action<string>? OnLog;
+
+// Respostas padrão para o Bot preencher formulários
+    private readonly Dictionary<string, string> _smartAnswers = new()
+    {
+        { "years", "5" },
+        { "experiência", "5" },
+        { "mobile", "+5562982424441" },
+        { "phone", "5562982424441" },
+        { "celular", "5562982424441" },
+        { "salary", "10000" },
+        { "pretensão", "10000" },
+        { "english", "madium" },
+        { "inglês", "medium" }
+    };
 
     public LinkedInBotService(IConfiguration config, FeedbackRepository feedbackRepo)
     {
@@ -19,224 +35,252 @@ public class LinkedInBotService : IDisposable
         _feedbackRepo = feedbackRepo;
     }
 
-    private void Log(string message) => OnLog?.Invoke($"[{DateTime.Now:HH:mm:ss}] {message}");
-
-    public void InitializeDriver()
-    {
-        if (_driver != null) return;
-
-        var options = new ChromeOptions();
-        // options.AddArgument("--headless"); // Descomente para rodar sem interface gráfica
-        options.AddArgument("--start-maximized");
-        options.AddArgument("--disable-notifications");
-
-        // Importante para evitar detecção básica de bots
-        options.AddArgument("--disable-blink-features=AutomationControlled");
-
-        _driver = new ChromeDriver(options);
-        _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
-    }
+    private void Log(string msg) => OnLog?.Invoke(msg);
 
     public void Login()
     {
-        InitializeDriver();
-        var email = _config["LinkedIn:Email"];
-        var pwd = _config["LinkedIn:Password"];
-
-        if (string.IsNullOrEmpty(email) || string.IsNullOrEmpty(pwd))
+        try 
         {
-            Log("ERRO: Credenciais não configuradas no appsettings.json");
-            return;
-        }
+            var options = new ChromeOptions();
+            options.AddArgument("--start-maximized");
+            options.AddArgument("--disable-notifications");
+            options.AddArgument("--remote-allow-origins=*");
 
-        try
-        {
-            Log("Acessando página de login...");
-            _driver!.Navigate().GoToUrl("https://www.linkedin.com/login");
+            _driver = new ChromeDriver(options);
+            _driver.Manage().Timeouts().ImplicitWait = TimeSpan.FromSeconds(5);
 
+            var email = _config["LinkedIn:Email"];
+            var pwd = _config["LinkedIn:Password"];
+
+            Log("🔑 Acessando LinkedIn...");
+            _driver.Navigate().GoToUrl("https://www.linkedin.com/login");
+            
             _driver.FindElement(By.Id("username")).SendKeys(email);
             _driver.FindElement(By.Id("password")).SendKeys(pwd);
-
-            Log("Enviando credenciais...");
             _driver.FindElement(By.CssSelector("button[type='submit']")).Click();
 
-            // Espera manual para caso haja CAPTCHA ou 2FA
-            Log("Aguardando carregamento do feed (10s)...");
-            Thread.Sleep(10000);
+            Log("⏳ Aguardando 10s (Verifique se pediu Captcha)...");
+            Thread.Sleep(10000); 
         }
         catch (Exception ex)
         {
-            Log($"Erro no Login: {ex.Message}");
+            Log($"❌ Erro no Login: {ex.Message}");
+            Dispose();
         }
     }
 
     public async Task RunAutoApply(List<Job> jobs)
     {
-        int max = int.Parse(_config["BotSettings:MaxApplicationsPerRun"] ?? "5");
-        int count = 0;
+        if (_driver == null) { Log("❌ Navegador fechado."); return; }
+
+        Log($"🚀 Iniciando automação em {jobs.Count} vagas...");
 
         foreach (var job in jobs)
         {
-            if (count >= max) break;
+            // Verificação de segurança do browser
+            if (_driver.WindowHandles.Count == 0) break;
 
-            // Só aplica se tiver score alto e for Easy Apply (URL interna)
-            if (job.Score < int.Parse(_config["BotSettings:MinScoreToApply"] ?? "0"))
+            // 1. Verifica Persistência
+            if (_feedbackRepo.HasApplied(job.Url))
             {
-                Log($"Pulando {job.Title} (Score {job.Score} muito baixo).");
+                Log($"⏭️ Já aplicado: {job.Title}");
                 continue;
             }
 
-            // Verifica se é uma vaga interna do LinkedIn (Easy Apply costuma ter IDs numéricos na URL ou /jobs/view)
-            if (!job.Url.Contains("linkedin.com"))
-            {
-                Log($"Pulando {job.Title} (Link externo).");
-                continue;
-            }
+            if (!job.Url.Contains("linkedin.com")) continue;
 
-            Log($"Processando: {job.Title}...");
-            bool success = ApplyToJob(job);
+            Log($"💼 Processando: {job.Title}...");
 
-            if (success)
+            bool aplicou = ApplyToJob(job);
+
+            if (aplicou)
             {
+                Log($"✅ SUCESSO: {job.Title}");
                 _feedbackRepo.Save(job.Url, Enums.ApplicationOutcome.Sent);
-                count++;
             }
-            else
-            {
-                _feedbackRepo.Save(job.Url, Enums.ApplicationOutcome.Ignored);
-            }
+            // Se falhou, o erro já foi logado dentro do ApplyToJob
 
-            // Pausa humana para evitar banimento
-            int delay = new Random().Next(5000, 10000);
-            Log($"Aguardando {delay}ms...");
-            await Task.Delay(delay);
+            await Task.Delay(new Random().Next(3000, 6000)); 
         }
-
-        Log("Ciclo de aplicação finalizado.");
+        
+        Log("🏁 Finalizado.");
     }
 
     private bool ApplyToJob(Job job)
     {
         try
         {
-            _driver!.Navigate().GoToUrl(job.Url);
-            Thread.Sleep(3000);
+            if (_driver == null) return false;
 
-            // Tentar localizar o botão "Candidatura Simplificada" (Easy Apply)
-            // O seletor pode variar, usando XPath para buscar pelo texto
-            var buttons = _driver.FindElements(By.XPath("//button[contains(., 'Candidatura simplificada')]"));
+            _driver.Navigate().GoToUrl(job.Url);
+            
+            // Espera curta inicial para carregamento da página
+            Thread.Sleep(2000);
 
-            if (buttons.Count == 0)
+            // --- 1. VERIFICAÇÃO DE SEGURANÇA: JÁ APLICADO? ---
+            // Procura pelos textos que aparecem na sua print: "Candidatura enviada" ou "Status da candidatura"
+            var alreadyApplied = _driver.FindElements(By.XPath(
+                "//*[contains(text(), 'Candidatura enviada') or contains(text(), 'Application sent') or contains(@class, 'jobs-apply-button--disabled')]"
+            ));
+
+            if (alreadyApplied.Count > 0 && alreadyApplied.Any(e => e.Displayed))
             {
-                buttons = _driver.FindElements(By.XPath("//button[contains(., 'Easy Apply')]"));
+                Log($"⚠️ Vaga já aplicada anteriormente: {job.Title}");
+                // IMPORTANTE: Salva no banco agora para o bot nunca mais abrir esse link
+                _feedbackRepo.Save(job.Url, Enums.ApplicationOutcome.Sent);
+                return false; 
             }
 
-            if (buttons.Count == 0)
+            // --- 2. BUSCA DO BOTÃO DE APLICAÇÃO ---
+            var wait = new WebDriverWait(_driver, TimeSpan.FromSeconds(5));
+
+            IWebElement? element = null;
+            try 
             {
-                Log("Botão Easy Apply não encontrado ou já aplicado.");
+                element = wait.Until(d => 
+                {
+                    // Tenta achar o botão de aplicação
+                    var candidates = d.FindElements(By.CssSelector(".jobs-apply-button"));
+                    
+                    if (!candidates.Any())
+                    {
+                        // Fallback por texto se a classe falhar
+                        candidates = d.FindElements(By.XPath("//*[contains(text(), 'Candidatura simplificada') or contains(text(), 'Easy Apply')]"));
+                    }
+
+                    return candidates.FirstOrDefault(e => e.Displayed && e.Enabled);
+                });
+            }
+            catch (WebDriverTimeoutException) 
+            {
+                Log($"⚠️ Botão não encontrado (Timeout) para: {job.Title}");
+                // Se não achou botão e nem o aviso de "Já aplicado", pode ser erro de carga ou vaga expirada
                 return false;
             }
 
-            buttons[0].Click();
-            Thread.Sleep(2000);
+            if (element == null) return false;
+            
+            // Scroll para garantir visibilidade
+            ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].scrollIntoView(true);", element);
+            Thread.Sleep(500);
 
-            // Fluxo do Modal de Aplicação
-            return HandleApplicationModal();
+            // Clique
+            try {
+                element.Click();
+            }
+            catch {
+                ((IJavaScriptExecutor)_driver).ExecuteScript("arguments[0].click();", element);
+            }
+            
+            Thread.Sleep(3000); 
+
+            // Checa redirecionamento externo
+            if (_driver.WindowHandles.Count > 1)
+            {
+                Log($"⏩ Site externo detectado. Pulando...");
+                _driver.SwitchTo().Window(_driver.WindowHandles.Last());
+                _driver.Close();
+                _driver.SwitchTo().Window(_driver.WindowHandles.First());
+                return false;
+            }
+
+            return HandleFormLoop();
         }
         catch (Exception ex)
         {
-            Log($"Erro ao aplicar para {job.Title}: {ex.Message}");
+            Log($"❌ Erro técnico ({job.Title}): {ex.Message}");
             return false;
         }
     }
 
-    private bool HandleApplicationModal()
+    private bool HandleFormLoop()
     {
-        int attempts = 0;
-        while (attempts < 10) // Evita loop infinito
+        for (int i = 0; i < 10; i++) 
         {
             try
             {
-                // Prioridade 1: Botão Enviar (Sucesso)
-                var submitBtns =
-                    _driver!.FindElements(
-                        By.XPath("//button[contains(., 'Enviar candidatura') or contains(., 'Submit application')]"));
-                if (submitBtns.Count > 0)
-                {
-                    submitBtns[0].Click();
-                    Log("Candidatura enviada com sucesso!");
-                    Thread.Sleep(2000);
-                    // Fechar modal de confirmação se houver
-                    try
-                    {
-                        _driver.FindElement(By.CssSelector("button[aria-label='Dismiss']")).Click();
-                    }
-                    catch
-                    {
-                    }
+                FillSmartAnswers();
 
+                // CORREÇÃO: Botão Enviar em PT/EN
+                var submit = _driver!.FindElements(By.XPath(
+                    "//button[contains(., 'Submit') or contains(., 'Enviar candidatura')]"
+                ));
+                
+                if (submit.Count > 0)
+                {
+                    submit[0].Click();
+                    Thread.Sleep(3000); // Espera enviar
+                    
+                    // Tenta fechar o modal de sucesso
+                    try { 
+                        _driver.FindElement(By.CssSelector("button[aria-label='Dismiss']")).Click(); 
+                    } catch {}
+                    
                     return true;
                 }
 
-                // Prioridade 2: Botão Avançar/Revisar
-                var nextBtns =
-                    _driver.FindElements(
-                        By.XPath("//button[contains(., 'Avançar') or contains(., 'Next') or contains(., 'Review')]"));
-                if (nextBtns.Count > 0)
+                // CORREÇÃO: Botão Avançar em PT/EN
+                var next = _driver.FindElements(By.XPath(
+                    "//button[contains(., 'Next') or contains(., 'Avançar')]"
+                ));
+                
+                if (next.Count > 0)
                 {
-                    nextBtns[0].Click();
+                    next[0].Click();
                     Thread.Sleep(1000);
-                    attempts++;
+                    continue;
+                }
+                
+                // CORREÇÃO: Botão Revisar em PT/EN
+                var review = _driver.FindElements(By.XPath(
+                    "//button[contains(., 'Review') or contains(., 'Revisar')]"
+                ));
+                
+                if (review.Count > 0)
+                {
+                    review[0].Click();
+                    Thread.Sleep(1000);
                     continue;
                 }
 
-                // Se não achou botão de avançar nem de enviar, pode ter travado em validação de form
-                // Tenta preencher inputs genéricos (muito difícil generalizar, mas aqui vai um best-effort)
-                FillGenericInputs();
-
-                // Se mesmo após tentar preencher não achar botão, aborta
-                Log("Não foi possível avançar no formulário.");
-                return false;
+                // Verifica erros
+                var errors = _driver.FindElements(By.CssSelector(".artdeco-inline-feedback--error"));
+                if(errors.Count > 0) return false;
             }
-            catch
-            {
-                return false;
-            }
+            catch { return false; }
+            
+            Thread.Sleep(500);
         }
-
         return false;
     }
 
-    private void FillGenericInputs()
+    private void FillSmartAnswers()
     {
-        // Exemplo: Tenta achar radios e marcar "Sim" para perguntas legais
         try
         {
-            // Seleciona o primeiro radio button de cada grupo (geralmente é "Sim")
-            // Cuidado: isso é arriscado em produção real
-            var radios = _driver!.FindElements(By.CssSelector("input[type='radio']"));
-            foreach (var r in radios)
+            var inputs = _driver!.FindElements(By.CssSelector("input[type='text'], input[type='number']"));
+            foreach(var input in inputs)
             {
-                if (!r.Selected)
+                if(!string.IsNullOrEmpty(input.GetAttribute("value"))) continue;
+                
+                string label = "";
+                try { label = input.FindElement(By.XPath("./..")).Text.ToLower(); } catch {}
+
+                foreach(var key in _smartAnswers.Keys)
                 {
-                    try
+                    if(label.Contains(key))
                     {
-                        _driver.FindElement(By.CssSelector($"label[for='{r.GetAttribute("id")}']")).Click();
-                    }
-                    catch
-                    {
+                        input.SendKeys(_smartAnswers[key]);
+                        break;
                     }
                 }
             }
         }
-        catch
-        {
-        }
+        catch {}
     }
 
     public void Dispose()
     {
-        _driver?.Quit();
-        _driver?.Dispose();
+        try { _driver?.Quit(); _driver?.Dispose(); } catch {}
     }
 }

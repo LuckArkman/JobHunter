@@ -71,3 +71,7 @@ D:\JobHunter\JobHunter.UI\bin\Debug\net8.0\JobHunter.Models.pdb
 D:\JobHunter\JobHunter.UI\bin\Debug\net8.0\JobHunter.Persistence.pdb
 D:\JobHunter\JobHunter.UI\bin\Debug\net8.0\JobHunter.Services.pdb
 D:\JobHunter\JobHunter.UI\bin\Debug\net8.0\JobHunter.Enums.pdb
+D:\JobHunter\JobHunter.UI\bin\Debug\net8.0\WebDriver.dll
+D:\JobHunter\JobHunter.UI\bin\Debug\net8.0\runtimes\linux\native\selenium-manager
+D:\JobHunter\JobHunter.UI\bin\Debug\net8.0\runtimes\osx\native\selenium-manager
+D:\JobHunter\JobHunter.UI\bin\Debug\net8.0\runtimes\win\native\selenium-manager.exe

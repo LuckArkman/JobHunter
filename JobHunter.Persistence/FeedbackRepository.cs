@@ -16,25 +16,24 @@ public class FeedbackRepository
         c.Open();
 
         var cmd = c.CreateCommand();
+        // Tabela para armazenar histórico
         cmd.CommandText =
             "CREATE TABLE IF NOT EXISTS Feedback (" +
-            "JobUrl TEXT, " +
+            "JobUrl TEXT PRIMARY KEY, " +
             "Outcome INT, " +
             "Date TEXT)";
         cmd.ExecuteNonQuery();
     }
 
+// Grava o resultado
     public void Save(string jobUrl, ApplicationOutcome outcome)
     {
-        var dbPath = DatabasePath.Get("jobs.db");
-        Conn = $"Data Source={dbPath}";
-        
         using var c = new SqliteConnection(Conn);
         c.Open();
 
         var cmd = c.CreateCommand();
         cmd.CommandText =
-            "INSERT INTO Feedback (JobUrl, Outcome, Date) " +
+            "INSERT OR REPLACE INTO Feedback (JobUrl, Outcome, Date) " +
             "VALUES ($u, $o, $d)";
 
         cmd.Parameters.AddWithValue("$u", jobUrl);
@@ -42,6 +41,21 @@ public class FeedbackRepository
         cmd.Parameters.AddWithValue("$d", DateTime.UtcNow.ToString("o"));
 
         cmd.ExecuteNonQuery();
+    }
+
+// --- NOVO MÉTODO: Verifica se já aplicou ---
+    public bool HasApplied(string jobUrl)
+    {
+        using var c = new SqliteConnection(Conn);
+        c.Open();
+
+        var cmd = c.CreateCommand();
+        // 0 = Sent (Enviado)
+        cmd.CommandText = "SELECT COUNT(*) FROM Feedback WHERE JobUrl = $u AND Outcome = 0";
+        cmd.Parameters.AddWithValue("$u", jobUrl);
+
+        var count = Convert.ToInt64(cmd.ExecuteScalar());
+        return count > 0;
     }
 
     public List<ApplicationFeedback> GetAll()
@@ -52,8 +66,7 @@ public class FeedbackRepository
         c.Open();
 
         var cmd = c.CreateCommand();
-        cmd.CommandText =
-            "SELECT JobUrl, Outcome, Date FROM Feedback ORDER BY Date DESC";
+        cmd.CommandText = "SELECT JobUrl, Outcome, Date FROM Feedback ORDER BY Date DESC";
 
         using var r = cmd.ExecuteReader();
         while (r.Read())

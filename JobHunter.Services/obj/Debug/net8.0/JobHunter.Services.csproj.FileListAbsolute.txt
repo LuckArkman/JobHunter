@@ -18,3 +18,5 @@ D:\JobHunter\JobHunter.Services\obj\Debug\net8.0\JobHunter.Services.pdb
 D:\JobHunter\JobHunter.Services\obj\Debug\net8.0\ref\JobHunter.Services.dll
 D:\JobHunter\JobHunter.Services\bin\Debug\net8.0\JobHunter.Persistence.dll
 D:\JobHunter\JobHunter.Services\bin\Debug\net8.0\JobHunter.Persistence.pdb
+D:\JobHunter\JobHunter.Services\bin\Debug\net8.0\Microsoft.Extensions.Configuration.Abstractions.dll
+D:\JobHunter\JobHunter.Services\bin\Debug\net8.0\Microsoft.Extensions.Primitives.dll

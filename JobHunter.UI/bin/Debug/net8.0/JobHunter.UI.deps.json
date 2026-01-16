@@ -12,7 +12,8 @@
           "JobHunter.Models": "1.0.0",
           "JobHunter.Persistence": "1.0.0",
           "JobHunter.Services": "1.0.0",
-          "Microsoft.Data.Sqlite": "10.0.2"
+          "Microsoft.Data.Sqlite": "10.0.2",
+          "Selenium.WebDriver": "4.39.0"
         },
         "runtime": {
           "JobHunter.UI.dll": {}
@@ -41,6 +42,31 @@
           "lib/net8.0/Microsoft.Data.Sqlite.dll": {
             "assemblyVersion": "10.0.2.0",
             "fileVersion": "10.0.225.61305"
+          }
+        }
+      },
+      "Selenium.WebDriver/4.39.0": {
+        "runtime": {
+          "lib/net8.0/WebDriver.dll": {
+            "assemblyVersion": "4.0.0.0",
+            "fileVersion": "4.0.0.0"
+          }
+        },
+        "runtimeTargets": {
+          "runtimes/linux/native/selenium-manager": {
+            "rid": "linux",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/osx/native/selenium-manager": {
+            "rid": "osx",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
+          },
+          "runtimes/win/native/selenium-manager.exe": {
+            "rid": "win",
+            "assetType": "native",
+            "fileVersion": "0.0.0.0"
           }
         }
       },
@@ -196,7 +222,8 @@
       },
       "JobHunter.Core/1.0.0": {
         "dependencies": {
-          "Microsoft.Data.Sqlite": "10.0.2"
+          "Microsoft.Data.Sqlite": "10.0.2",
+          "Selenium.WebDriver": "4.39.0"
         },
         "runtime": {
           "JobHunter.Core.dll": {
@@ -207,7 +234,8 @@
       },
       "JobHunter.Enums/1.0.0": {
         "dependencies": {
-          "Microsoft.Data.Sqlite": "10.0.2"
+          "Microsoft.Data.Sqlite": "10.0.2",
+          "Selenium.WebDriver": "4.39.0"
         },
         "runtime": {
           "JobHunter.Enums.dll": {
@@ -219,7 +247,8 @@
       "JobHunter.Models/1.0.0": {
         "dependencies": {
           "JobHunter.Enums": "1.0.0",
-          "Microsoft.Data.Sqlite": "10.0.2"
+          "Microsoft.Data.Sqlite": "10.0.2",
+          "Selenium.WebDriver": "4.39.0"
         },
         "runtime": {
           "JobHunter.Models.dll": {
@@ -232,7 +261,8 @@
         "dependencies": {
           "JobHunter.Enums": "1.0.0",
           "JobHunter.Models": "1.0.0",
-          "Microsoft.Data.Sqlite": "10.0.2"
+          "Microsoft.Data.Sqlite": "10.0.2",
+          "Selenium.WebDriver": "4.39.0"
         },
         "runtime": {
           "JobHunter.Persistence.dll": {
@@ -247,7 +277,8 @@
           "JobHunter.Enums": "1.0.0",
           "JobHunter.Models": "1.0.0",
           "JobHunter.Persistence": "1.0.0",
-          "Microsoft.Data.Sqlite": "10.0.2"
+          "Microsoft.Data.Sqlite": "10.0.2",
+          "Selenium.WebDriver": "4.39.0"
         },
         "runtime": {
           "JobHunter.Services.dll": {
@@ -284,6 +315,13 @@
       "sha512": "sha512-/8ubtRdyED4qyxmL1CAu3UZZUEgc9l0dPCItW5tlOkYlKOb3QNhjGuEeb7uTKAqm8L7kwFOx1fCsndiylrzZAg==",
       "path": "microsoft.data.sqlite.core/10.0.2",
       "hashPath": "microsoft.data.sqlite.core.10.0.2.nupkg.sha512"
+    },
+    "Selenium.WebDriver/4.39.0": {
+      "type": "package",
+      "serviceable": true,
+      "sha512": "sha512-LbiWOVW/PA/YVHKAXxMPLwwoupj3XLWKwjnGNkGFF0dG0rX2MJHDWgSf9WPSRWb9Msr3vTWFg0EsEAdNs68NiA==",
+      "path": "selenium.webdriver/4.39.0",
+      "hashPath": "selenium.webdriver.4.39.0.nupkg.sha512"
     },
     "SQLitePCLRaw.bundle_e_sqlite3/2.1.11": {
       "type": "package",

@@ -83,3 +83,7 @@ D:\JobHunter\JobHunter.Worker\obj\Debug\net8.0\refint\JobHunter.Worker.dll
 D:\JobHunter\JobHunter.Worker\obj\Debug\net8.0\JobHunter.Worker.pdb
 D:\JobHunter\JobHunter.Worker\obj\Debug\net8.0\JobHunter.Worker.genruntimeconfig.cache
 D:\JobHunter\JobHunter.Worker\obj\Debug\net8.0\ref\JobHunter.Worker.dll
+D:\JobHunter\JobHunter.Worker\bin\Debug\net8.0\WebDriver.dll
+D:\JobHunter\JobHunter.Worker\bin\Debug\net8.0\runtimes\linux\native\selenium-manager
+D:\JobHunter\JobHunter.Worker\bin\Debug\net8.0\runtimes\osx\native\selenium-manager
+D:\JobHunter\JobHunter.Worker\bin\Debug\net8.0\runtimes\win\native\selenium-manager.exe
